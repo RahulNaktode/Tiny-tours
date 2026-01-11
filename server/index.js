@@ -2,7 +2,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connetDB from "./db.js";
-import User from './models/User.js'
+import User from './models/User.js';
+import bcrypt from 'bcryptjs';
+
 
 dotenv.config();
 
@@ -28,10 +30,6 @@ app.get("/health", (req, res) => {
 app.post("/signup", async (req, res) =>{
     const {name, email, mobile, city, country, password} = req.body;
 
-    const newUser = new User({
-        name, email, mobile, city, country, password
-    });
-
     if(!name){
         return res.json({
             success: false,
@@ -55,6 +53,15 @@ app.post("/signup", async (req, res) =>{
             data: null
         })
     }
+
+    const salt = bcrypt.genSaltSync(10);
+const encryptPassword = bcrypt.hashSync(password, salt);
+
+    const newUser = new User({
+        name, email, mobile, city, country, password:encryptPassword
+    });
+
+    
 
     const existingUser = await User.findOne({email});
 
@@ -103,9 +110,21 @@ app.post("/login", async (req, res) => {
         })
     }
 
-    const existingUserdata = await User.findOne({email, password}).select("-password");
+    const existingUserdata = await User.findOne({email});
 
-    if(existingUserdata){
+    if(!existingUserdata){
+        return res.json({
+            success: false,
+            message: "Invalid email or password",
+            data: null,
+        })
+    }
+
+    const isPasswordCorrect = bcrypt.compareSync(password, existingUserdata.password);
+
+    existingUserdata.password = undefined;
+
+    if(isPasswordCorrect){
         return res.json({
             success: true,
             message: "Login successfully",
