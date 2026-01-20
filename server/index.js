@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connetDB from "./db.js";
 import User from './models/User.js';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 
@@ -13,6 +14,37 @@ app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 8080;
+
+const middelware = (req, res, next) => {
+    console.log("add middleware")
+    next();
+}
+
+const testControl = (req, res) => {
+    console.log("Test middleware")
+    res.json({
+        message:"TEst middleware"
+    })
+} 
+
+const checkJWT = (req, res, next) => {
+    const { authorization } = req.headers;
+    const token = authorization && authorization.split(" ")[1];
+    console.log("TOKEN : ", token);
+
+    try{
+        const decoded = jwt.verify(token, process.env.JWT_TOKEN);
+        next();  
+    }catch(err){
+        return res.json({
+            success: false,
+            message: "Invalid 0r missing token",
+            data: null,
+        })
+    }
+};
+
+app.post("/test", middelware , testControl)
 
 
 app.get("/", (req, res) => {
@@ -26,6 +58,19 @@ app.get("/health", (req, res) => {
         status: "OK"
     })
 });
+
+app.get("/api_v1", checkJWT, (req, res) => {
+    return res.json({
+        message: "API V1 is Working"
+    });
+})
+
+app.get("/api_v2", (req, res) => {
+
+    return res.json({
+        message: "API V2 is Working"
+    });
+})
 
 app.post("/signup", async (req, res) =>{
     const {name, email, mobile, city, country, password} = req.body;
@@ -125,10 +170,23 @@ app.post("/login", async (req, res) => {
     existingUserdata.password = undefined;
 
     if(isPasswordCorrect){
+
+        const jwtToken = jwt.sign(
+            {
+            id:existingUserdata._id,
+            email:existingUserdata.email,
+        },
+        process.env.JWT_TOKEN,
+        {
+            expiresIn:"1h"
+        }
+    )
+
         return res.json({
             success: true,
             message: "Login successfully",
             data: existingUserdata,
+            jwtToken:jwtToken,
         })
     }
     else{
