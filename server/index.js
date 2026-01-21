@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connetDB from "./db.js";
 import User from './models/User.js';
+import Tour from './models/Tour.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
@@ -15,18 +16,6 @@ app.use(cors());
 
 const PORT = process.env.PORT || 8080;
 
-const middelware = (req, res, next) => {
-    console.log("add middleware")
-    next();
-}
-
-const testControl = (req, res) => {
-    console.log("Test middleware")
-    res.json({
-        message:"TEst middleware"
-    })
-} 
-
 const checkJWT = (req, res, next) => {
     const { authorization } = req.headers;
     const token = authorization && authorization.split(" ")[1];
@@ -34,6 +23,7 @@ const checkJWT = (req, res, next) => {
 
     try{
         const decoded = jwt.verify(token, process.env.JWT_TOKEN);
+        req.user= decoded;
         next();  
     }catch(err){
         return res.json({
@@ -43,9 +33,6 @@ const checkJWT = (req, res, next) => {
         })
     }
 };
-
-app.post("/test", middelware , testControl)
-
 
 app.get("/", (req, res) => {
     return res.json({
@@ -59,17 +46,46 @@ app.get("/health", (req, res) => {
     })
 });
 
-app.get("/api_v1", checkJWT, (req, res) => {
-    return res.json({
-        message: "API V1 is Working"
-    });
-})
+app.post("/tours", checkJWT, async (req, res) => {
+    const {title, description, cities, startDate, endDate, photos} = req.body;
 
-app.get("/api_v2", (req, res) => {
+    const newTour = new Tour({
+        title,
+        description,
+        cities,
+        startDate,
+        endDate,
+        photos,
+        user: req.user.id,
+    });
+
+    try{
+        const savedTour = await newTour.save();
+
+        return res.json({
+            success: true,
+            message: "Tour created successfully",
+            data: savedTour,
+        });
+    }
+    catch(error){
+        return res.json({
+            success: false,
+            message: `Tour created failed: ${error.message}`,
+            data: null,
+        })
+    }
+});
+
+app.get("/tours", checkJWT, async (req, res) => {
+
+    const tours = await Tour.find({user: req.user.id}).populate("user", "-password");
 
     return res.json({
-        message: "API V2 is Working"
-    });
+        success: true,
+        message: "Fetched tours successfully",
+        data: tours,
+    })
 })
 
 app.post("/signup", async (req, res) =>{
