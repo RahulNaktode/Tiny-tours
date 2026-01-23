@@ -15,6 +15,7 @@ const getTours = async (req, res) => {
 }
 
 const postTours = async (req, res) => {
+    
     const {title, description, cities, startDate, endDate, photos} = req.body;
 
     const newTour = new Tour({
@@ -26,6 +27,8 @@ const postTours = async (req, res) => {
         photos,
         user: req.user.id,
     });
+    console.log(req.body.endDate)
+    
 
     try{
         const savedTour = await newTour.save();
@@ -45,4 +48,47 @@ const postTours = async (req, res) => {
     }
 }
 
-export {getTours, postTours}
+const putTours = async (req, res) => {
+    const user = req.user;
+    const userId = user.id;
+    const {id} = req.params;
+
+    const tour = await Tour.findById(id);
+
+    if(tour.user.toString() !== userId){
+        return res.json({
+            success: false,
+            message: "Unauthorize to this tour",
+            data: null,
+        })
+    }
+
+    if(!tour){
+        return res.json({
+            success: false,
+            message: "Tour not found",
+            data: null,
+        })
+    }
+
+    const {title, description, cities, startDate, endDate, photos} = req.body;
+
+    await Tour.updateOne({_id: id},{
+        title, 
+        description, 
+        cities, 
+        startDate, 
+        endDate, 
+        photos
+    })
+
+    const updatedTour = await Tour.findById(id);
+
+    return res.json({
+        success: true,
+        message: "User Successfully Updated",
+        data: updatedTour,
+    })
+}
+
+export {getTours, postTours, putTours}

@@ -6,7 +6,7 @@ import connetDB from "./db.js";
 import { checkJWT } from "./middlewares/jwt.js";
 import { getHealth, getHome } from "./controllers/health.js";
 import { postLogin, postSignup } from "./controllers/auth.js";
-import { getTours, postTours } from "./controllers/tours.js";
+import { getTours, postTours, putTours } from "./controllers/tours.js";
 
 dotenv.config();
 
@@ -20,7 +20,8 @@ app.get("/", getHome);
 app.get("/health", getHealth);
 
 app.post("/tours", checkJWT, postTours);
-app.get("/tours", checkJWT, getTours)
+app.get("/tours", checkJWT, getTours);
+app.put("/tours/:id", checkJWT, putTours)
 
 app.post("/signup", postSignup);
 app.post("/login", postLogin);
