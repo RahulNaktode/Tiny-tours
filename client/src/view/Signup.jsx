@@ -5,6 +5,7 @@ import Button from "../components/Button.jsx";
 import axios from "axios";
 import toast, {Toaster} from "react-hot-toast";
 import { Link } from "react-router";
+import Navbar from "../components/Navbar.jsx";
 
 function Signup() {
     const [newUser, setNewUser] = useState({
@@ -44,6 +45,7 @@ function Signup() {
 
   return (
     <div>
+      <Navbar />
       Signup
 
     <div className="w-75 block m-auto">

@@ -7,6 +7,7 @@ import Signup from './view/Signup';
 import Tours from './view/Tours';
 import NewTours from './view/Newtours';
 import EditTour from './view/EditTour';
+import Dashboard from './view/Dashboard';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -16,6 +17,7 @@ root.render(
     <Route path='/' element={<Home />} />
     <Route path='/login' element={<Login />} />
     <Route path='/signup' element={<Signup />} />
+    <Route path='/dashboard' element={<Dashboard />} />
     <Route path='/tours' element={<Tours />} />
     <Route path='/newtour' element={<NewTours />} />
     <Route path='/edittour' element={<EditTour />} />

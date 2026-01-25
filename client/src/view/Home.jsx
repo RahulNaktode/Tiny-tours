@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { setPageTitle } from "./../utils.jsx";
+import Navbar from "../components/Navbar.jsx";
 
 function Home() {
     useEffect(() => {
@@ -8,6 +9,7 @@ function Home() {
 
   return (
     <div>
+      <Navbar />
       Home
     </div>
   )

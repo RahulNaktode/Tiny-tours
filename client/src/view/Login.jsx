@@ -5,6 +5,7 @@ import Button from "../components/Button.jsx";
 import axios from "axios";
 import toast, {Toaster} from "react-hot-toast";
 import {Link} from "react-router"
+import Navbar from "../components/Navbar.jsx";
 
 function Login() {
     useEffect(() => {
@@ -29,8 +30,12 @@ function Login() {
 
         const {jwtToken, data} = response.data;
 
-        localStorage.setItem("UserJwtToken", jwtToken);
-        localStorage.setItem("UserData", JSON.stringify(data));
+        localStorage.setItem("userJwtToken", jwtToken);
+        localStorage.setItem("userData", JSON.stringify(data));
+
+        setTimeout(() => {
+          window.location.href='/dashboard'
+        }, 1500)
         
       }else{
         toast.error(response.data.message, {id: "loginError"});
@@ -39,9 +44,10 @@ function Login() {
 
   return (
     <div>
-      Login
+      <Navbar />
+      
 
-<div className="w-75 block m-auto">
+<div className="w-75 block m-auto mt-10">
       <Input
       type="text"
       placesholder="Email"
@@ -60,7 +66,7 @@ function Login() {
       }}
       />
 
-      <Button title="Login" onClick={createLoginUser} />
+      <Button title="Login" size="small" varient="primary" onClick={createLoginUser} />
 
       <Link to="/signup"
       className="text-blue-500"
