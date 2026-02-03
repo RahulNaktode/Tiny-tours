@@ -4,6 +4,7 @@ import { getUserData, logoutUser } from "../utils";
 import Button from "./Button";
 import { Link } from "react-router";
 import { Toaster } from "react-hot-toast";
+import Avatar from "./Avatar";
 
 
 function Navbar() {
@@ -31,7 +32,7 @@ function Navbar() {
       <div>
         {userData?.name ? (
           <div className="flex items-center">
-            <span className="bg-black text-white flex items-center justify-center h-8 w-8 rounded-full mx-2">{userData?.name[0]}</span>
+            <Avatar name={userData.name} />
             Hello, {userData.name}!
             <Button title="Logout" size="small" varient="tertiary" onClick={logoutUser} />
           </div>
