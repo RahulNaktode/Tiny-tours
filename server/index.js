@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connetDB from "./db.js";
+import ImageKit from "@imagekit/nodejs";
 
 import { checkJWT } from "./middlewares/jwt.js";
 import { getHealth, getHome } from "./controllers/health.js";
@@ -16,8 +17,17 @@ app.use(cors());
 
 const PORT = process.env.PORT || 8080;
 
+const client = new ImageKit({
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY
+});
+
 app.get("/", getHome);
 app.get("/health", getHealth);
+
+app.get('/auth', function (req, res) {
+  const { token, expire, signature } = client.helper.getAuthenticationParameters();
+  res.send({ token, expire, signature, publicKey: process.env.IMAGEKIT_PUBLIC_KEY });
+});
 
 app.post("/tours", checkJWT, postTours);
 app.get("/tours", checkJWT, getTours);
