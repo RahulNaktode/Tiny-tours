@@ -100,7 +100,7 @@ function NewTours() {
         };
 
   const addTour = async () => {
-    const response = await axios.post("http://localhost:8080/tours", newTours, {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/tours`, newTours, {
       headers: {
         Authorization: `Bearer ${getUserJwtToken()}`
       }
