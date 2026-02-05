@@ -5,7 +5,7 @@ import Home from './view/Home';
 import Login from './view/Login';
 import Signup from './view/Signup';
 import Tours from './view/Tours';
-import NewTours from './view/Newtours';
+import NewTours from './view/NewTours.jsx';
 import EditTour from './view/EditTour';
 import Dashboard from './view/Dashboard';
 
