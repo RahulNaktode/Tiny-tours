@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import connectDB from "./db.js";
 import User from "./models/User.js"
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -12,6 +13,23 @@ app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 8020;
+
+const checkJWT = (req, res, next) => {
+    const { authorization } = req.headers;
+    const token = authorization && authorization.split(" ")[1];
+
+    try{
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        next();
+    }
+    catch(error){
+        return res.json({
+            success: false,
+            message: "Invalid or missing token",
+            data: null,
+        })
+    }
+}
 
 app.get("/", (req, res) => {
     res.json({
@@ -27,10 +45,24 @@ app.get("/health", (req, res) => {
     })
 });
 
-app.post("/signup", async (req, res) => {
-    const {name, email, mobile, password, city, country} = req.body;
+app.get("/api_v1", checkJWT, (req, res) => {
+    res.json({
+        success: true,
+        message: "API v1 is working"
+    })
+})
 
-    if(!name){
+app.get("/api_v2", checkJWT, (req, res) => {
+    res.json({
+        success: true,
+        message: "API v2 is working"
+    })
+})
+
+app.post("/signup", async (req, res) => {
+    const { name, email, mobile, password, city, country } = req.body;
+
+    if (!name) {
         return res.json({
             success: true,
             message: "Name is required",
@@ -38,7 +70,7 @@ app.post("/signup", async (req, res) => {
         })
     }
 
-    if(!email){
+    if (!email) {
         return res.json({
             success: true,
             message: "email is required",
@@ -46,7 +78,7 @@ app.post("/signup", async (req, res) => {
         })
     }
 
-    if(!password){
+    if (!password) {
         return res.json({
             success: true,
             message: "password is required",
@@ -59,7 +91,7 @@ app.post("/signup", async (req, res) => {
 
     const existingUser = await User.findOne({ email });
 
-    if(existingUser){
+    if (existingUser) {
         return res.json({
             success: false,
             message: "User with this email already exists",
@@ -76,7 +108,7 @@ app.post("/signup", async (req, res) => {
         password: encryptedPassword,
     });
 
-    try{
+    try {
         const savedUser = await newUser.save();
 
         return res.json({
@@ -84,7 +116,7 @@ app.post("/signup", async (req, res) => {
             message: "User register Successfully",
             data: savedUser
         })
-    } catch (error){
+    } catch (error) {
         return res.json({
             success: false,
             message: `User register failed: ${error.message}`,
@@ -96,7 +128,7 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
-    if(!email){
+    if (!email) {
         return res.json({
             success: true,
             message: "email is required",
@@ -104,7 +136,7 @@ app.post("/login", async (req, res) => {
         })
     }
 
-    if(!password){
+    if (!password) {
         return res.json({
             success: true,
             message: "password is required",
@@ -114,7 +146,7 @@ app.post("/login", async (req, res) => {
 
     const existingUser = await User.findOne({ email });
 
-    if(!existingUser){
+    if (!existingUser) {
         return res.json({
             success: true,
             message: "User doesn't exist with is email, please signup",
@@ -126,14 +158,26 @@ app.post("/login", async (req, res) => {
 
     existingUser.password = undefined;
 
-    if(isPasswordCorrect){
+    
+    const jwtToken = jwt.sign({
+            id: existingUser._id,
+            email: existingUser.email,
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "1d",
+        }
+    );
+
+    if (isPasswordCorrect) {
         return res.json({
             success: true,
             message: "Login Successfully",
-            data: existingUser
+            data: existingUser,
+            jwtToken: jwtToken,
         });
     }
-    else{
+    else {
         return res.json({
             success: false,
             message: "Invalid email or password",
