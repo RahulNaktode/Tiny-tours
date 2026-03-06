@@ -5,6 +5,7 @@ import connectDB from "./db.js";
 import User from "./models/User.js"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Tour from "./models/Tour.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ const checkJWT = (req, res, next) => {
 
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
         next();
     }
     catch(error){
@@ -44,20 +46,6 @@ app.get("/health", (req, res) => {
         message: "OK"
     })
 });
-
-app.get("/api_v1", checkJWT, (req, res) => {
-    res.json({
-        success: true,
-        message: "API v1 is working"
-    })
-})
-
-app.get("/api_v2", checkJWT, (req, res) => {
-    res.json({
-        success: true,
-        message: "API v2 is working"
-    })
-})
 
 app.post("/signup", async (req, res) => {
     const { name, email, mobile, password, city, country } = req.body;
@@ -123,7 +111,7 @@ app.post("/signup", async (req, res) => {
             data: null
         })
     }
-})
+});
 
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -184,6 +172,47 @@ app.post("/login", async (req, res) => {
             data: null,
         });
     }
+});
+
+app.post("/tours", checkJWT, async (req, res) => {
+    const { title, description, cities, startDate, endDate, photos } = req.body;
+
+    const newTour = new Tour({
+        title,
+        description,
+        cities,
+        startDate,
+        endDate,
+        photos,
+        user: req.user.id,
+    });
+
+    try{
+        const savedTour = await newTour.save();
+
+        return res.json({
+            success: true,
+            message: "Tour created Successfully",
+            data: savedTour,
+        })
+    }
+    catch(error){
+        return res.json({
+            success: false,
+            message: `Tour creation failed: ${error.message}`,
+            data: null,
+        })
+    }
+});
+
+app.get("/tours", checkJWT, async (req, res) => {
+
+    const tours = await Tour.find({user: req.user.id}).populate("user", "-password");
+    return res.json({
+        success: true,
+        message: "Tours fetched Successfully",
+        data: tours,
+    })
 })
 
 app.listen(PORT, () => {
