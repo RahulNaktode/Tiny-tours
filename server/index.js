@@ -8,7 +8,7 @@ dotenv.config();
 // Routes
 import { getHome, getHealth } from "./controllers/health.js";
 import { postLogin, postSignUp } from "./controllers/auth.js";
-import { getTours, postTours } from "./controllers/tours.js";
+import { getTours, postTours, putTours } from "./controllers/tours.js";
 
 // Middlewares
 import { checkJWT } from "./middlewars/jwt.js";
@@ -20,16 +20,14 @@ app.use(cors());
 const PORT = process.env.PORT || 8020;
 
 app.get("/", getHome);
-
 app.get("/health", getHealth);
 
 app.post("/signup", postSignUp);
-
 app.post("/login", postLogin);
 
 app.post("/tours", checkJWT, postTours);
-
 app.get("/tours", checkJWT, getTours);
+app.put("/tours/:id", checkJWT, putTours);
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);
