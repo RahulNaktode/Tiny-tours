@@ -1,9 +1,24 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import Home from './views/Home';
+import Signup from './views/Signup';
+import Login from './views/Login';
+import NewTour from './views/NewTour';
+import EditTour from './views/EditTour';
+import Tours from './views/Tours';
 
-createRoot(document.getElementById('root')).render(
-  
-    <App />
-  
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/tour/new" element={<NewTour />} />
+            <Route path="/tour/edit" element={<EditTour />} />
+            <Route path="/tours" element={<Tours />} />
+        </Routes>
+    </BrowserRouter>
 )
