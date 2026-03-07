@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router';
+import Navbar from '../components/Navbar';
 
 function Login() {
     useEffect(() => {
@@ -31,15 +32,19 @@ function Login() {
 
         localStorage.setItem("userJwtToken", jwtToken);
         localStorage.setItem("userData", JSON.stringify(data));
+
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 1000);
       } else {
         toast.error(response.data.message, { id: "loginError" });
       }
     }
   return (
     <div>
-      <h1>Login</h1>
+      <Navbar />
 
-<div className='w-75 mx-auto flex flex-col gap-4'>
+<div className='w-75 block mx-auto mt-15'>
       <Input 
       type={"text"}
       placeholder={"email"}

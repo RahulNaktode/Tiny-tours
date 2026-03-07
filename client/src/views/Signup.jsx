@@ -6,7 +6,7 @@ import Button from '../components/Button';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router';
-
+import Navbar from '../components/Navbar';
 
 function Signup() {
     const [newUser, setNewUser] = useState({
@@ -44,9 +44,9 @@ function Signup() {
 
   return (
     <div>
-      <h1>Signup</h1>
+      <Navbar />
 
-<div className='w-75 mx-auto flex flex-col gap-4'>
+<div className='w-75 block mx-auto mt-15'>
       <Input 
       type={"text"}
       placeholder={"name"}
