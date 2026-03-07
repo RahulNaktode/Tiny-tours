@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react'
 import { setPageTitle } from '../utils'
 import Input from '../components/Input';
 import Button from '../components/Button';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
+import { Link } from 'react-router';
+
 
 function Signup() {
     const [newUser, setNewUser] = useState({
@@ -16,6 +20,28 @@ function Signup() {
     useEffect(() => {
         setPageTitle('Signup - TinyTours');
     }, []);
+
+    const createUser = async ()=> {
+      const response = await axios.post("http://localhost:8020/signup", newUser);
+
+      if(response.data.success) {
+        toast.success(response.data.message, { id: "signupsuccess" });
+        setNewUser({
+          name: "",
+          email: "",
+          mobile: "",
+          city: "",
+          country: "",
+          password: "",
+        });
+
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1000);
+      } else {
+        toast.error(response.data.message, { id: "signuperror" });
+    }}
+
   return (
     <div>
       <h1>Signup</h1>
@@ -63,10 +89,13 @@ function Signup() {
       onChange={(e) => setNewUser({...newUser, password: e.target.value})}
     />
 
-    <Button title={"Signup"} />
-    </div>
-    </div>
 
+    <Button title={"Signup"} onClick={createUser}/>
+
+    <Link to="/login" className='text-blue-500 '>Already have an account? Login</Link>
+    </div>
+    <Toaster />
+    </div>
     
   )
 }
