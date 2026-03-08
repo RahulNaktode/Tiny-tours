@@ -4,6 +4,7 @@ import Logo from '../assets/logo.png'
 import { getUserData, logoutUser } from '../utils';
 import Button from './Button';
 import { Link } from 'react-router';
+import Avatar from './Avatar';
 
 function Navbar() {
   const [userData, setUserData] = useState({});
@@ -29,7 +30,7 @@ function Navbar() {
       <div>
         {userData?.name ? (
           <div className='flex items-center'>
-            <span className='bg-black text-white h-8 w-8 flex items-center justify-center rounded-full mr-2'>{userData.name[0]}</span>
+            <Avatar name={userData.name}/>
           Hello, {userData.name}
           <Button title={"Logout"}  onClick={logoutUser}/>
         </div>
