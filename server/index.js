@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import connectDB from "./db.js";
-
+import ImageKit from "@imagekit/nodejs";
 dotenv.config();
 
 // Routes
@@ -17,9 +17,21 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const client = new ImageKit({
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY
+});
+
 const PORT = process.env.PORT || 8020;
 
 app.get("/", getHome);
+app.get('/auth', function (req, res) {
+  // Your application logic to authenticate the user
+  // For example, you can check if the user is logged in or has the necessary permissions
+  // If the user is not authenticated, you can return an error response
+  const { token, expire, signature } = client.helper.getAuthenticationParameters();
+  res.send({ token, expire, signature, publicKey: process.env.IMAGEKIT_PUBLIC_KEY });
+});
+
 app.get("/health", getHealth);
 
 app.post("/signup", postSignUp);
