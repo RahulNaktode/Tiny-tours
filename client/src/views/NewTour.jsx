@@ -130,9 +130,10 @@ function NewTour() {
   return (
     <div>
       <Navbar />
-      <h1>Add New Tour</h1>
+      
 
-      <div className='w-85 block mx-auto mt-15'>
+      <div className='w-95 block mx-auto mt-15 bg-white border border-gray-300 rounded px-4 py-6 shadow-md'>
+        <h2 className='text-2xl text-center mb-6 poppins-semibold-italic'>Let's Document of New Adventure!</h2>
         <Input
           type={"text"}
           placeholder={"Title"}
@@ -210,7 +211,8 @@ function NewTour() {
         if(e.target.files.length > 0)
           handleUpload();
         }}
-        
+        className='border bg-white border-gray-300 rounded px-2 py-1 mx-2 my-1 focus:outline-none focus:ring-1 focus:ring-red-400
+        block w-full'
         />
         </div>
         { progress > 0 ? `Uploading... ${progress}%` : null}

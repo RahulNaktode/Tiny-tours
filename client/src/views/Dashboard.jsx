@@ -36,7 +36,6 @@ function Dashboard() {
     return (
         <div>
             <Navbar />
-            <h1>Dashboard</h1>
 
             <div className='w-2/3 block mx-auto mt-15'>
 

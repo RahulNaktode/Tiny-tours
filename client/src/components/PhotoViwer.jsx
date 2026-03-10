@@ -15,7 +15,7 @@ function PhotoPreview({ imageUrl, show, onClose }) {
 function PhotoViwer({ imageUrl,index, onDelete, showDelete = false }) {
     const [showPreview, setShowPreview] = useState(false);
   return (
-    <div className='flex items-center justify-center relative w-fit shadow-md rounded-md'>
+    <div className='flex items-center justify-center relative w-fit rounded-md'>
       <img 
       src={imageUrl} 
       key={index} 

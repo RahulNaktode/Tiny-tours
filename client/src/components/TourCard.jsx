@@ -1,14 +1,15 @@
 import React from 'react'
-import { Building2, Footprints, LandPlot } from 'lucide-react';
+import { Building2, Footprints, LandPlot, Pencil } from 'lucide-react';
 import Avatar from './Avatar';
 import PhotoViwer from './PhotoViwer';
+import { Link } from 'react-router';
 
-function TourCard({ id, title, description, cities, photos, user, startDate, endDate, createdAt, updatedAt }) {
+function TourCard({ _id, title, description, cities, photos, user, startDate, endDate, createdAt, updatedAt }) {
 
     const { name, email } = user;
   return (
-    <div className='border border-gray-700 px-4 py-3 rounded shadow-md'>
-      <h2 className='text-lg'>{title}</h2>
+    <div className='relative border border-gray-700 px-4 py-3 rounded shadow-md my-4 bg-white '>
+      <h2 className='text-lg poppins-semibold-italic'>{title}</h2>
 
       <p className='text-sm text-gray-500'>{description}</p>
 
@@ -34,6 +35,10 @@ function TourCard({ id, title, description, cities, photos, user, startDate, end
             )
         })}
       </div>
+
+      <Link to={`/tour/${_id}/edit`}>
+      <Pencil className='absolute right-2 top-2 h-6 w-6 cursor-pointer' />
+      </Link>
     </div>
   )
 }

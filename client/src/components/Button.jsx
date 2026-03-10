@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Button({title, size = "small", varient = "primary", onClick}) {
+function Button({title, size = "medium", varient = "primary", onClick}) {
 
   const SIZE_CLASSES = {
     small: 'px-2 py-1 text-xs mx-2',
@@ -15,7 +15,7 @@ function Button({title, size = "small", varient = "primary", onClick}) {
   }
   return (
     <div>
-      <button onClick={onClick} className={`${VARIENT_CLASSES[varient]} rounded ${SIZE_CLASSES[size]}`}>
+      <button onClick={onClick} className={`${VARIENT_CLASSES[varient]} rounded ${SIZE_CLASSES[size]} poppins-semibold-italic block mx-auto my-2`}>
         {title}
       </button>
     </div>

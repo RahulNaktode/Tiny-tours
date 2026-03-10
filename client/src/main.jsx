@@ -19,8 +19,7 @@ root.render(
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tour/new" element={<NewTour />} />
-            <Route path="/tour/edit" element={<EditTour />} />
-            <Route path="/tours" element={<Tours />} />
+            <Route path="/tour/:id/edit" element={<EditTour />} />
         </Routes>
     </BrowserRouter>
 )

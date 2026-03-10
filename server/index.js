@@ -8,7 +8,7 @@ dotenv.config();
 // Routes
 import { getHome, getHealth } from "./controllers/health.js";
 import { postLogin, postSignUp } from "./controllers/auth.js";
-import { getTours, postTours, putTours } from "./controllers/tours.js";
+import { getTours, postTours, putTours, getTourById } from "./controllers/tours.js";
 
 // Middlewares
 import { checkJWT } from "./middlewars/jwt.js";
@@ -25,9 +25,6 @@ const PORT = process.env.PORT || 8020;
 
 app.get("/", getHome);
 app.get('/auth', function (req, res) {
-  // Your application logic to authenticate the user
-  // For example, you can check if the user is logged in or has the necessary permissions
-  // If the user is not authenticated, you can return an error response
   const { token, expire, signature } = client.helper.getAuthenticationParameters();
   res.send({ token, expire, signature, publicKey: process.env.IMAGEKIT_PUBLIC_KEY });
 });
@@ -40,6 +37,7 @@ app.post("/login", postLogin);
 app.post("/tours", checkJWT, postTours);
 app.get("/tours", checkJWT, getTours);
 app.put("/tours/:id", checkJWT, putTours);
+app.get("/tours/:id", checkJWT, getTourById);
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);

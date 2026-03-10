@@ -44,7 +44,8 @@ function Login() {
     <div>
       <Navbar />
 
-<div className='w-75 block mx-auto mt-15'>
+<div className='w-95 block mx-auto mt-15 border border-gray-300 rounded px-4 py-6 shadow-md bg-white'>
+    <h2 className='text-2xl text-center mb-6 poppins-semibold-italic'>Login to Your Account</h2>
       <Input 
       type={"text"}
       placeholder={"email"}
@@ -60,7 +61,7 @@ function Login() {
     />
 
 
-    <Button title={"Login"} onClick={checkUserLogin}/>
+    <Button title={"Login"} onClick={checkUserLogin} />
 
     <Link to="/signup" className='text-blue-500 '>Don't have an account? Signup</Link>
     </div>
