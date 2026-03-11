@@ -15,6 +15,7 @@ import {
 } from "@imagekit/react";
 import PhotoViwer from '../components/PhotoViwer'
 import { useParams } from 'react-router'
+import Footer from '../components/Footer'
 
 
 function EditTour() {
@@ -158,8 +159,8 @@ function EditTour() {
       <Navbar />
       
 
-      <div className='w-95 block mx-auto mt-15 bg-white border border-gray-300 rounded px-4 py-6 shadow-md'>
-        <h2 className='text-2xl text-center mb-6 poppins-semibold-italic'>Edit Tour Details {id}</h2>
+      <div className='md:w-95 w-full block mx-auto mt-15 bg-white border border-gray-300 rounded md:px-4 px-2 py-6 shadow-md mb-10'>
+        <h2 className='text-2xl text-center mb-6 poppins-semibold-italic'>Edit Tour Details</h2>
         <Input
           type={"text"}
           placeholder={"Title"}
@@ -248,6 +249,7 @@ function EditTour() {
         <Button title={"Edit Tour"} onClick={editTour} />
         </div>
       </div>
+      <Footer />
       <Toaster />
     </div>
   )

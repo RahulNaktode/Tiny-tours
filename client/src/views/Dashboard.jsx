@@ -7,6 +7,7 @@ import { getUserJwtToken } from '../utils';
 import AddToursImg from './../assets/addtours.png'
 import { Link } from 'react-router';
 import TourCard from '../components/TourCard';
+import Footer from '../components/Footer';
 
 function Dashboard() {
     const [tours, setTours] = useState([]);
@@ -37,18 +38,19 @@ function Dashboard() {
         <div>
             <Navbar />
 
-            <div className='w-2/3 block mx-auto mt-15'>
+            <div className='md:w-2/3 w-3/3 block mx-auto mt-15'>
 
             <Link to="/tour/new">
-                <img src={AddToursImg} alt="Add Tours" className='fixed bottom-10 h-15 right-10 cursor-pointer' />
+                <img src={AddToursImg} alt="Add Tours" className='fixed bottom-10  h-15 right-10 cursor-pointer' />
             </Link>
 
-            <div>
+            <div className='md:h-[75vh] h-[60vh] overflow-y-auto mb-10'>
                 {tours.map((tourItem, index) => {
                     return <TourCard key={index} {...tourItem} />
                 })}
             </div>
             </div>
+            <Footer />
             <Toaster />
         </div>
     )

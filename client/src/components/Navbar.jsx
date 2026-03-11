@@ -19,11 +19,11 @@ function Navbar() {
     fetchData();
   }, [])
   return (
-    <div className='bg-red-300 px-4 py-4 flex items-center justify-around poppins-regular'>
+    <div className='bg-red-300 md:px-4 px-1 py-1 flex items-center justify-around poppins-regular'>
       <div>
       <Link to="/" className='flex items-center'>
-        <img src={Logo} alt="Logo" className='h-10 w-10 inline-block'/>
-        <span className='ml-2 font-bold text-lg poppins-semibold-italic'>TinyTours</span>
+        <img src={Logo} alt="Logo" className='md:h-10 h-7 md:w-10 w-7 inline-block'/>
+        <span className='ml-2 font-bold md:text-xl text-lg  poppins-semibold-italic'>TinyTours</span>
       </Link>
       </div>
 
@@ -31,7 +31,7 @@ function Navbar() {
         {userData?.name ? (
           <Link to="/dashboard" className='flex items-center'>
             <Avatar name={userData.name}/>
-          Hello, {userData.name}
+          <span className='text-sm md:text-lg'>Hello, {userData.name}</span>
           <Button title={"Logout"}  onClick={logoutUser}/>
         </Link>
         ) : (

@@ -19,13 +19,13 @@ function PhotoViwer({ imageUrl,index, onDelete, showDelete = false }) {
       <img 
       src={imageUrl} 
       key={index} 
-      className='w-33 h-20 mt-2 rounded-md object-cover mx-2 cursor-pointer' 
+      className='md:w-33 w-25 md:h-20 h-15 mt-2 rounded-md object-cover mx-2 cursor-pointer' 
       onClick={() => {
         setShowPreview(true)
       }}
       />
       {
-        showDelete ? <Trash2 className='text-red-500 absolute top-0 right-1 h-5 w-5 cursor-pointer'
+        showDelete ? <Trash2 className='text-red-500 absolute top-0 right-1 md:h-5 h-4 w-5 cursor-pointer'
         onClick={() => onDelete(imageUrl)}
         /> : null 
       }
