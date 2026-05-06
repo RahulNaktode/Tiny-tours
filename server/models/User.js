@@ -12,6 +12,13 @@ const UserSchema = new Schema({
         unique: true
     },
 
+    photo: {
+        type: [
+            String
+        ],
+        default: []
+    },
+
     mobile: {
         type: String,
     },

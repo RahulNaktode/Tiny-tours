@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const postSignUp = async (req, res) => {
-    const { name, email, mobile, password, city, country } = req.body;
+    const { name, email, photo, mobile, password, city, country } = req.body;
 
     if (!name) {
         return res.json({
@@ -48,6 +48,7 @@ const postSignUp = async (req, res) => {
     const newUser = new User({
         name,
         email,
+        photo,
         mobile,
         city,
         country,
