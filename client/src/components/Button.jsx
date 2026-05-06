@@ -15,7 +15,7 @@ function Button({title, size = "medium", varient = "primary", onClick}) {
   }
   return (
     <div>
-      <button onClick={onClick} className={`${VARIENT_CLASSES[varient]} rounded ${SIZE_CLASSES[size]} poppins-semibold-italic block mx-auto my-2`}>
+      <button onClick={onClick} className={`${VARIENT_CLASSES[varient]} rounded ${SIZE_CLASSES[size]} poppins-semibold-italic block mx-auto my-2 cursor-pointer`}>
         {title}
       </button>
     </div>

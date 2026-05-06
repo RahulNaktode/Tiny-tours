@@ -34,7 +34,7 @@ function Login() {
         localStorage.setItem("userData", JSON.stringify(data));
 
         setTimeout(() => {
-          window.location.href = "/dashboard";
+          window.location.href = "/";
         }, 1000);
       } else {
         toast.error(response.data.message, { id: "loginError" });

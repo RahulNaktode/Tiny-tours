@@ -33,7 +33,7 @@ function Navbar() {
             {
               userData?.photo?.length > 0 ? <img src={userData.photo[0]} alt="User Avatar" className='h-8 w-8 rounded-full object-cover mr-2' /> : <Avatar name={userData.name} size={30} className={"mr-2"}/>
             }
-          <span className='text-sm md:text-lg'>Hello, {userData.name}</span>
+          <span className='text-sm md:text-lg pr-2'>Hello, {userData.name}</span>
           <Button title={"Logout"}  onClick={logoutUser}/>
         </Link>
         ) : (
