@@ -29,7 +29,7 @@ function Navbar() {
 
       <div>
         {userData?.name ? (
-          <Link to="/dashboard" className='flex items-center'>
+          <Link to="/profileUpdate" className='flex items-center'>
             {
               userData?.photo?.length > 0 ? <img src={userData.photo[0]} alt="User Avatar" className='h-8 w-8 rounded-full object-cover mr-2' /> : <Avatar name={userData.name} size={30} className={"mr-2"}/>
             }

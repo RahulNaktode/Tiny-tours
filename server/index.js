@@ -7,7 +7,7 @@ dotenv.config();
 
 // Routes
 import { getHome, getHealth } from "./controllers/health.js";
-import { postLogin, postSignUp } from "./controllers/auth.js";
+import { postLogin, postSignUp, putProfile } from "./controllers/auth.js";
 import { getTours, postTours, putTours, getTourById } from "./controllers/tours.js";
 
 // Middlewares
@@ -34,6 +34,7 @@ app.get("/health", getHealth);
 
 app.post("/signup", postSignUp);
 app.post("/login", postLogin);
+app.put("/profile", checkJWT, putProfile);
 
 app.post("/tours", checkJWT, postTours);
 app.get("/tours", checkJWT, getTours);

@@ -133,4 +133,45 @@ const postLogin = async (req, res) => {
     }
 }
 
-export { postSignUp, postLogin }
+const putProfile = async (req, res) => {
+  try {
+
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
+    const { name, mobile, email, photo, city, country } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, mobile, email, photo, city, country },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    if (!updatedUser) {
+      return res.json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Profile updated successfully",
+      data: updatedUser
+    });
+
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: error.message
+    });
+  }
+};  
+
+export { postSignUp, postLogin, putProfile }

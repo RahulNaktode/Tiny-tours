@@ -1,10 +1,11 @@
 import React from 'react'
 
-function Input({ type,placeholder, value, onChange, onKeyDown}) {
+function Input({ type, name, placeholder, value, onChange, onKeyDown }) {
   return (
     <div>
       <input
         type={type}
+        name={name}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
