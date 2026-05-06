@@ -19,7 +19,7 @@ function PhotoViwer({ imageUrl,index, onDelete, showDelete = false }) {
       <img 
       src={imageUrl} 
       key={index} 
-      className='md:w-33 w-25 md:h-20 h-15 mt-2 rounded-md object-cover mx-2 cursor-pointer' 
+      className='md:w-33 w-25 md:h-20 h-20 mt-2 rounded-md object-cover mx-2 cursor-pointer' 
       onClick={() => {
         setShowPreview(true)
       }}
